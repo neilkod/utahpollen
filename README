@@ -1,0 +1,2 @@
+scrapes utah pollen data from http://intermountainallergy.com/pollen.html
+we'll store it in a database and possibly tweet it.
