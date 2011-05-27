@@ -14,7 +14,7 @@ TESTDATA = {u'Cattail': 80, u'Willow': 80, u'BoxElder/Maple': 80,
 						u'Mulberry': 320, u'Cedar': 80, u'Chenopods': 80,
 						u'Grass': 80, u'Mold': 80}
 
-scale = {40: 'extra low', 80: 'low', 160: 'moderate', 240: 'high-moderate', 320: 'high', 400 : 'extra high'}
+scale = {40: 'extra low', 80: 'low', 120: 'moderate-low', 160: 'moderate', 240: 'high-moderate', 320: 'high', 400 : 'extra high'}
 today_str = time.strftime('%Y-%m-%d',time.localtime())
 
 def get_twitter_config(config_file = CONFIG_FILE, screen_name = 'neilkod2'):
@@ -56,7 +56,7 @@ def send_tweet(tweet_string):
 		auth.set_access_token(config['access_key'], config['access_secret'])
 		api = tweepy.API(auth)
 		api.update_status(tweet_string)
-	return True
+		return True
 	except:
 		raise
 
@@ -77,7 +77,7 @@ def report_pollen_data(pollen_data):
 	median_score = numpy.median(pollen_data.values())
 	warnings.append('Trees: %s' % scale[median_score])
 	for k,v in pollen_data.iteritems():
-		if v > median_score:
+		if v > 160:
 			warnings.append('%s: %s' % (k,scale[v]))
 	print tweet_string
 	print warnings
