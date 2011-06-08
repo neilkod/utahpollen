@@ -33,10 +33,16 @@ def get_twitter_config(config_file = CONFIG_FILE, screen_name = 'neilkod2'):
 def get_pollen_count():
 	pollen_data = {}
 	page = urllib2.urlopen('http://intermountainallergy.com/pollen.html')
-	last_modified = page.headers['last-modified']
+	
+	# retrieve the last-modified http header
+	# convert it to a date
+	# and write it to a file
+	
+	lm = page.headers['last-modified']
+	last_modified_date = datetime.datetime.strptime(lm,'%a, %d %b %Y %H:%M:%S %Z')
 	# save the last-modified date
 	last_modified_file = open('last_modified.txt','wb')
-	last_modified_file.write(last_modified + '\n')
+	last_modified_file.write(lm + '\n')
 	last_modified_file.close()
 	
 	soup = BeautifulSoup(page)
