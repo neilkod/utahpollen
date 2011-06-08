@@ -36,12 +36,13 @@ def get_pollen_count():
 	soup = BeautifulSoup(page)
 	pollentable = soup.find('table',{'class':'pollentable'})
 	rows = pollentable.findAll('tr')
-
+	print rows
 	for row in rows[1:-2]:
 		cols = row.findAll('td')
 		pollen_type = cols[0].text.replace(' ','')
 		width = dict(cols[1].img.attrs)['width']
 		result =  "%s\t%s\t%s" % (today_str,pollen_type, width)
+		print result
 		pollen_data[pollen_type] = int(width)
 	
 	print pollen_data
@@ -71,9 +72,20 @@ def write_pollen_data(pollen_data):
 		writer.writerow(row)
 
 def report_pollen_data(pollen_data):
-	# determine the median pollen score
+	
+	# determine the median pollen score for trees
 	tweet_string = 'Utah pollen forcast for %s: ' % today_str
 	warnings = []
+
+	#categories
+	special_classes = ['Mold', 'Grass', 'Chenopods']
+	for itm in special_classes:
+		if itm in pollen_data.keys():
+			warnings.append('%s: %s' % (itm, scale[pollen_data[itm]]))
+			del pollen_data[itm]
+	
+	print warnings
+	print pollen_data
 	median_score = numpy.median(pollen_data.values())
 	warnings.append('Trees: %s' % scale[median_score])
 	for k,v in pollen_data.iteritems():
@@ -87,8 +99,10 @@ def report_pollen_data(pollen_data):
 def main():
 
 	pollen_data = get_pollen_count()
-	write_pollen_data(pollen_data)
+	pollen_data = TESTDATA
+#	write_pollen_data(pollen_data)
 	tweet_string = report_pollen_data(pollen_data)
+	print tweet_string
 	success = send_tweet(tweet_string)
 	if success:
 		print "tweet successfully sent: %s"  % tweet_string
