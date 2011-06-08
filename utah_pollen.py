@@ -33,6 +33,12 @@ def get_twitter_config(config_file = CONFIG_FILE, screen_name = 'neilkod2'):
 def get_pollen_count():
 	pollen_data = {}
 	page = urllib2.urlopen('http://intermountainallergy.com/pollen.html')
+	last_modified = page.headers['last-modified']
+	# save the last-modified date
+	last_modified_file = open('last_modified.txt','wb')
+	last_modified_file.write(last_modified + '\n')
+	last_modified_file.close()
+	
 	soup = BeautifulSoup(page)
 	pollentable = soup.find('table',{'class':'pollentable'})
 	rows = pollentable.findAll('tr')
@@ -103,9 +109,9 @@ def main():
 #	write_pollen_data(pollen_data)
 	tweet_string = report_pollen_data(pollen_data)
 	print tweet_string
-	success = send_tweet(tweet_string)
-	if success:
-		print "tweet successfully sent: %s"  % tweet_string
+	# success = send_tweet(tweet_string)
+	# if success:
+	# 	print "tweet successfully sent: %s"  % tweet_string
 
 if __name__ == '__main__':
 	main()
