@@ -2,7 +2,7 @@
 
 import csv, ConfigParser
 import numpy
-import urllib2, time
+import urllib2, time, datetime
 import tweepy
 from BeautifulSoup import BeautifulSoup
 
@@ -86,7 +86,7 @@ def write_pollen_data(pollen_data):
 def report_pollen_data(pollen_data):
 	
 	# determine the median pollen score for trees
-	tweet_string = 'Utah pollen forcast for %s: ' % today_str
+	tweet_string = 'Utah pollen report for %s: ' % today_str
 	warnings = []
 
 	#categories
@@ -111,7 +111,7 @@ def report_pollen_data(pollen_data):
 def main():
 
 	pollen_data = get_pollen_count()
-	pollen_data = TESTDATA
+#	pollen_data = TESTDATA
 #	write_pollen_data(pollen_data)
 	tweet_string = report_pollen_data(pollen_data)
 	print tweet_string
