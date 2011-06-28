@@ -15,7 +15,14 @@ TESTDATA = {u'Cattail': 80, u'Willow': 80, u'BoxElder/Maple': 80,
 						u'Mulberry': 320, u'Cedar': 80, u'Chenopods': 80,
 						u'Grass': 80, u'Mold': 80}
 
-scale = {40: 'extra low', 80: 'low', 120: 'moderate-low', 160: 'moderate', 240: 'high-moderate', 320: 'high', 400 : 'extra high'}
+scale = {40: 'Extra Low', 
+				 80: 'Low', 
+				120: 'Moderate-Low', 
+				160: 'Moderate', 
+				240: 'High-moderate', 
+				320: 'High', 
+				400 : 'Extra High'}
+				
 today_str = time.strftime('%Y-%m-%d',time.localtime())
 
 def get_twitter_config(config_file = CONFIG_FILE, screen_name = 'neilkod2'):
@@ -71,7 +78,7 @@ def get_pollen_count():
 	pollen_rows = pollen_table('tr')[1:-1]
 	for row in pollen_rows:
 		fields = row.getchildren()
-		pollen_source = fields[0].text_content()
+		pollen_source = fields[0].text_content().replace('*','')
 		pollen_value = fields[1].getchildren()[0].get('width')
 		pollen_data[pollen_source] = int(pollen_value)
 	
