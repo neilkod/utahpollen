@@ -23,7 +23,7 @@ scale = {40: 'Extra Low',
 				320: 'High', 
 				400 : 'Extra High'}
 				
-today_str = time.strftime('%Y-%m-%d',time.localtime())
+today_str = time.strftime('%b-%d',time.localtime())
 
 def get_twitter_config(config_file = CONFIG_FILE, screen_name = 'neilkod2'):
 	twitter_params = {}
@@ -111,7 +111,7 @@ def write_pollen_data(pollen_data):
 def report_pollen_data(pollen_data):
 	
 	# determine the median pollen score for trees
-	tweet_string = 'Utah pollen report for %s: ' % today_str
+	tweet_string = '%s pollen report: ' % today_str
 	warnings = []
 
 	#categories
