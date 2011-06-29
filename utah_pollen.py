@@ -8,12 +8,7 @@ import tweepy
 from pyquery import PyQuery
 
 CONFIG_FILE = 'utah_pollen.cfg'
-TWITTER_SCREEN_NAME = 'neilkod2'
-
-TESTDATA = {u'Cattail': 80, u'Willow': 80, u'BoxElder/Maple': 80, 
-						u'Sycamore': 80, u'Oak': 80, u'Sagebrush': 80,
-						u'Mulberry': 320, u'Cedar': 80, u'Chenopods': 80,
-						u'Grass': 80, u'Mold': 80}
+TWITTER_SCREEN_NAME = 'utahallergy'
 
 scale = {40: 'Extra Low', 
 				 80: 'Low', 
@@ -136,7 +131,7 @@ def report_pollen_data(pollen_data):
 def main():
 
 	pollen_data = get_pollen_count()
-#	pollen_data = TESTDATA
+
 	write_pollen_data(pollen_data)
 	tweet_string = report_pollen_data(pollen_data)
 	print tweet_string
