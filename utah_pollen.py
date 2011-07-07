@@ -1,13 +1,16 @@
 #!/usr/bin/python
 
-import csv, ConfigParser
+import csv, ConfigParser, os
 import numpy
 import urllib2, time, datetime
 import tweepy
 #from BeautifulSoup import BeautifulSoup
 from pyquery import PyQuery
 
-CONFIG_FILE = 'utah_pollen.cfg'
+# need to fix this
+base_path = '/Users/nkodner/Dropbox/development/python/utahpollen/'
+
+CONFIG_FILE = base_path + 'utah_pollen.cfg'
 TWITTER_SCREEN_NAME = 'utahallergy'
 
 scale = {40: 'Extra Low', 
@@ -46,7 +49,7 @@ def get_pollen_count():
 	lm = source.headers['last-modified']
 	last_modified_date = datetime.datetime.strptime(lm,'%a, %d %b %Y %H:%M:%S %Z')
 	# save the last-modified date
-	last_modified_file = open('last_modified.txt','wb')
+	last_modified_file = open('last_modified.txt','a')
 	last_modified_file.write(lm + '\n')
 	last_modified_file.close()
 
@@ -95,7 +98,7 @@ def send_tweet(tweet_string):
 
 def write_pollen_data(pollen_data):
 	today_str = time.strftime('%Y-%m-%d',time.localtime())
-	datafile = 'data/utahpollen.tsv'
+	datafile = base_path +'data/utahpollen.tsv'
 	file_handle = open(datafile, 'a')
 	dict_keys = ('pollen_source')
 	writer = csv.writer(file_handle, delimiter='\t')
